@@ -5,10 +5,11 @@ sys.path.append("/Users/brendonericlucas/elementary_data_structures_in_python")
 
 from stacks_and_queues import Stack
 from stacks_and_queues import Queue
+from stacks_and_queues import QueueStack
 
 
 def test_simple_stack():
-    stack = Stack()
+    stack = Stack([])
 
     stack.push(1)
     stack.push(2)
@@ -41,3 +42,22 @@ def test_simple_queue():
     assert third == queue.dequeue()
 
     assert queue.is_empty()
+
+
+def test_queue_stack():
+    queue = Queue()
+    queue_stack = QueueStack()
+
+    queue.enqueue(1)
+    queue.enqueue(2)
+    queue.enqueue(3)
+
+    queue_stack.enqueue(1)
+    queue_stack.enqueue(2)
+    queue_stack.enqueue(3)
+
+    assert queue_stack.dequeue() == queue.dequeue()
+    assert queue_stack.dequeue() == queue.dequeue()
+    assert queue_stack.dequeue() == queue.dequeue()
+
+    assert queue_stack.is_empty()
