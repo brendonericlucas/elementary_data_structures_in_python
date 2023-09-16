@@ -104,4 +104,3 @@ if __name__ == "__main__":
     linked_list.reverse()
     print("Reversed List:")
     print(linked_list.__repr__())
-
