@@ -27,15 +27,19 @@ class Stack:
 
 
 class Queue:
-    def __init__(self, items=[]) -> None:
+    def __init__(self, items) -> None:
         self.items = items
+        self.length = len(items)
 
     def enqueue(self, item):
         self.items = [item] + self.items
+        self.length = len(self.items)
         return self.items
 
     def dequeue(self):
-        return self.items.pop()
+        item = self.items.pop()
+        self.length = len(self.items)
+        return item
 
     def is_empty(self):
         if self.items:
@@ -87,7 +91,34 @@ class QueueStack:
 
 class StackQueue:
     # implements a stack data structure using two queues
-    pass
+    def __init__(self) -> None:
+        self.q1 = Queue([])
+        self.q2 = Queue([])
+
+    def push(self, item):
+        self.q1.enqueue(item)
+        return self.q1
+
+    def pop(self):
+        item = None
+
+        for i in range(self.q1.length - 1):
+            self.q2.enqueue(self.q1.dequeue())
+
+        if not self.q1.is_empty():
+            item = self.q1.dequeue()
+
+        for i in range(self.q2.length):
+            self.q1.enqueue(self.q2.dequeue())
+
+        return item
+
+    def is_empty(self):
+        return self.q1.is_empty()
+
+    def __str__(self) -> str:
+        str_queue_stack = "\n[StackQueue]\n{}\n<------->\n".format(self.q1.__str__())
+        return str_queue_stack
 
 
 if __name__ == "__main__":
@@ -104,7 +135,7 @@ if __name__ == "__main__":
     stack.pop()
     print(stack)
 
-    queue = Queue()
+    queue = Queue([])
     print(queue)
     queue.enqueue(1)
     queue.enqueue(2)
@@ -116,6 +147,19 @@ if __name__ == "__main__":
     print(queue)
     queue.dequeue()
     print(queue)
+
+    stack_queue = StackQueue()
+    print(stack_queue)
+    stack_queue.push(1)
+    stack_queue.push(2)
+    stack_queue.push(3)
+    print(stack_queue)
+    stack_queue.pop()
+    print(stack_queue)
+    stack_queue.pop()
+    print(stack_queue)
+    stack_queue.pop()
+    print(stack_queue)
 
     queue_stack = QueueStack()
     print(queue_stack)
